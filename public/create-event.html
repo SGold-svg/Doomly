@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Event - Doomly</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; background: #f3f4f6; min-height: 100vh; }
+        
+        .navbar {
+            background: white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            padding: 0 24px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .logo { font-size: 24px; font-weight: bold; color: #667eea; text-decoration: none; }
+        
+        .main { max-width: 800px; margin: 40px auto; padding: 0 24px; }
+        
+        .page-title { font-size: 28px; font-weight: bold; color: #1f2937; margin-bottom: 32px; }
+        
+        .card { background: white; border-radius: 16px; padding: 32px; margin-bottom: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        
+        .card-title { font-size: 18px; font-weight: 600; color: #1f2937; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid #e5e7eb; }
+        
+        .form-group { margin-bottom: 20px; }
+        
+        .form-group label { display: block; font-size: 14px; font-weight: 500; color: #374151; margin-bottom: 8px; }
+        
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+        
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .form-group textarea { min-height: 120px; resize: vertical; }
+        
+        .row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        
+        .btn { padding: 12px 24px; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; border: none; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; }
+        
+        .btn-primary { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+        .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4); }
+        
+        .btn-secondary { background: white; color: #374151; border: 2px solid #e5e7eb; }
+        .btn-secondary:hover { background: #f9fafb; }
+        
+        .btn-row { display: flex; justify-content: space-between; margin-top: 32px; }
+        
+        .error { background: #fef2f2; border: 1px solid #fca5a5; color: #dc2626; padding: 12px; border-radius: 10px; margin-bottom: 20px; }
+        
+        .checkbox-group { display: flex; align-items: center; gap: 8px; }
+        
+        .checkbox-group input { width: auto; }
+        
+        .nav-back { color: #6b7280; text-decoration: none; display: flex; align-items: center; gap: 4px; font-size: 14px; }
+        .nav-back:hover { color: #667eea; }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="/" class="logo">Doo<span style="color:#764ba2">mly</span></a>
+        <a href="/dashboard.html" class="nav-back">← Back to Dashboard</a>
+    </nav>
+    
+    <main class="main">
+        <h1 class="page-title">Create New Event</h1>
+        
+        <form id="event-form">
+            <div class="card">
+                <h2 class="card-title">Basic Information</h2>
+                
+                <div class="form-group">
+                    <label>Event Name *</label>
+                    <input type="text" id="title" placeholder="Annual Tech Conference 2025" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea id="description" placeholder="Describe your event..."></textarea>
+                </div>
+                
+                <div class="row">
+                    <div class="form-group">
+                        <label>Event Type</label>
+                        <select id="event_type">
+                            <option value="">Select type</option>
+                            <option value="conference">Conference</option>
+                            <option value="workshop">Workshop</option>
+                            <option value="webinar">Webinar</option>
+                            <option value="meetup">Meetup</option>
+                            <option value="concert">Concert</option>
+                            <option value="social">Social Event</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Capacity</label>
+                        <input type="number" id="capacity" placeholder="100" min="1">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h2 class="card-title">Date & Time</h2>
+                
+                <div class="row">
+                    <div class="form-group">
+                        <label>Start Date & Time *</label>
+                        <input type="datetime-local" id="start_date" required>
+                    </div>
+                    <div class="form-group">
+                        <label>End Date & Time *</label>
+                        <input type="datetime-local" id="end_date" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="is_all_day">
+                        <label for="is_all_day" style="margin-bottom: 0;">This is an all-day event</label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h2 class="card-title">Location</h2>
+                
+                <div class="form-group">
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="is_online">
+                        <label for="is_online" style="margin-bottom: 0;">This is an online event</label>
+                    </div>
+                </div>
+                
+                <div id="venue-fields">
+                    <div class="form-group">
+                        <label>Venue Name</label>
+                        <input type="text" id="venue_name" placeholder="Brussels Expo">
+                    </div>
+                    
+                    <div class="row">
+                        <div class="form-group">
+                            <label>City</label>
+                            <input type="text" id="city" placeholder="Brussels">
+                        </div>
+                        <div class="form-group">
+                            <label>Country</label>
+                            <input type="text" id="country" placeholder="Belgium">
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="online-fields" style="display: none;">
+                    <div class="form-group">
+                        <label>Online Meeting Link</label>
+                        <input type="url" id="online_link" placeholder="https://zoom.us/j/...">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h2 class="card-title">Ticketing</h2>
+                
+                <p style="color: #6b7280; margin-bottom: 16px;">You can add ticket types after creating the event.</p>
+            </div>
+            
+            <div id="error" class="error" style="display: none;"></div>
+            
+            <div class="btn-row">
+                <a href="/dashboard.html" class="btn btn-secondary">Cancel</a>
+                <button type="submit" class="btn btn-primary" id="submit-btn">Create Event →</button>
+            </div>
+        </form>
+    </main>
+    
+    <script>
+        const API_URL = '/api';
+        
+        // Toggle location fields
+        document.getElementById('is_online').addEventListener('change', function() {
+            document.getElementById('venue-fields').style.display = this.checked ? 'none' : 'block';
+            document.getElementById('online-fields').style.display = this.checked ? 'block' : 'none';
+        });
+        
+        // Check auth
+        function checkAuth() {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                window.location.href = '/index.html';
+                return null;
+            }
+            return token;
+        }
+        
+        // Form submission
+        document.getElementById('event-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const token = checkAuth();
+            if (!token) return;
+            
+            const btn = document.getElementById('submit-btn');
+            const errorEl = document.getElementById('error');
+            
+            btn.disabled = true;
+            btn.textContent = 'Creating...';
+            errorEl.style.display = 'none';
+            
+            const formData = {
+                title: document.getElementById('title').value,
+                description: document.getElementById('description').value,
+                event_type: document.getElementById('event_type').value || null,
+                capacity: parseInt(document.getElementById('capacity').value) || null,
+                start_date: new Date(document.getElementById('start_date').value).toISOString(),
+                end_date: new Date(document.getElementById('end_date').value).toISOString(),
+                is_all_day: document.getElementById('is_all_day').checked,
+                is_online: document.getElementById('is_online').checked,
+                venue_name: document.getElementById('venue_name').value || null,
+                city: document.getElementById('city').value || null,
+                country: document.getElementById('country').value || null,
+                online_link: document.getElementById('online_link').value || null
+            };
+            
+            try {
+                const response = await fetch(`${API_URL}/events`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify(formData)
+                });
+                
+                const data = await response.json();
+                
+                if (!response.ok) {
+                    throw new Error(data.error || 'Failed to create event');
+                }
+                
+                // Redirect to edit page
+                window.location.href = `/edit-event.html?id=${data.event.id}`;
+                
+            } catch (error) {
+                errorEl.textContent = error.message;
+                errorEl.style.display = 'block';
+                btn.disabled = false;
+                btn.textContent = 'Create Event →';
+            }
+        });
+    </script>
+</body>
+</html>

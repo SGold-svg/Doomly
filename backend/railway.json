@@ -1,0 +1,23 @@
+{
+  "$schema": "https://railway.app/schema.json",
+  "build": {
+    "builder": "NIXPACKS",
+    "nixpacks": {
+      "lang": "python",
+      "version": "3.11"
+    }
+  },
+  "deploy": {
+    "numReplicas": 1,
+    "startCommand": "sh -c 'flask db upgrade && gunicorn --bind 0.0.0.0:$PORT app:create_app\(\)' --workers 2",
+    "healthCheck": {
+      "path": "/api/health",
+      "interval": 30,
+      "timeout": 10
+    }
+  },
+  "restartPolicy": {
+    "policy": "ON_FAILURE",
+    "retries": 3
+  }
+}

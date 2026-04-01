@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Doomly</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #f3f4f6;
+            min-height: 100vh;
+        }
+        
+        /* Navigation */
+        .navbar {
+            background: white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            padding: 0 24px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .nav-link {
+            padding: 8px 16px;
+            color: #6b7280;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            background: #f3f4f6;
+            color: #1f2937;
+        }
+        
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            padding: 6px 12px;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+        
+        .user-menu:hover {
+            background: #f3f4f6;
+        }
+        
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        .user-name {
+            font-size: 14px;
+            font-weight: 500;
+            color: #1f2937;
+        }
+        
+        /* Main Content */
+        .main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 32px 24px;
+        }
+        
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+        }
+        
+        .page-title {
+            font-size: 28px;
+            font-weight: bold;
+            color: #1f2937;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-secondary {
+            background: white;
+            color: #374151;
+            border: 1px solid #e5e7eb;
+        }
+        
+        .btn-secondary:hover {
+            background: #f9fafb;
+        }
+        
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .stat-label {
+            font-size: 14px;
+            color: #6b7280;
+            margin-bottom: 8px;
+        }
+        
+        .stat-value {
+            font-size: 32px;
+            font-weight: bold;
+            color: #1f2937;
+        }
+        
+        .stat-change {
+            font-size: 12px;
+            color: #10b981;
+            margin-top: 8px;
+        }
+        
+        /* Quick Actions */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+        
+        .action-card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 2px solid transparent;
+        }
+        
+        .action-card:hover {
+            border-color: #667eea;
+            transform: translateY(-2px);
+        }
+        
+        .action-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-bottom: 16px;
+        }
+        
+        .action-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 4px;
+        }
+        
+        .action-desc {
+            font-size: 14px;
+            color: #6b7280;
+        }
+        
+        /* Recent Activity */
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 16px;
+        }
+        
+        .activity-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .activity-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+        
+        .activity-type {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1f2937;
+        }
+        
+        .activity-time {
+            font-size: 12px;
+            color: #9ca3af;
+        }
+        
+        .activity-desc {
+            font-size: 14px;
+            color: #6b7280;
+        }
+        
+        /* Empty State */
+        .empty-state {
+            background: white;
+            border-radius: 16px;
+            padding: 60px;
+            text-align: center;
+        }
+        
+        .empty-icon {
+            font-size: 64px;
+            margin-bottom: 16px;
+        }
+        
+        .empty-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 8px;
+        }
+        
+        .empty-desc {
+            font-size: 14px;
+            color: #6b7280;
+            margin-bottom: 24px;
+        }
+        
+        /* Grid layouts */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 24px;
+        }
+        
+        /* Loading */
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 60px;
+        }
+        
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #e5e7eb;
+            border-top-color: #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        @media (max-width: 1024px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .quick-actions {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            .quick-actions {
+                grid-template-columns: 1fr;
+            }
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-left">
+            <a href="/" class="logo">Doo<span style="color:#764ba2">mly</span></a>
+            <div class="nav-links">
+                <a href="/dashboard.html" class="nav-link active">Dashboard</a>
+                <a href="/events.html" class="nav-link">Events</a>
+                <a href="/orders.html" class="nav-link">Orders</a>
+                <a href="/attendees.html" class="nav-link">Attendees</a>
+                <a href="/settings.html" class="nav-link">Settings</a>
+            </div>
+        </div>
+        <div class="nav-right">
+            <div class="user-menu" onclick="toggleUserMenu()">
+                <div class="user-avatar" id="user-avatar">U</div>
+                <span class="user-name" id="user-name">User</span>
+            </div>
+        </div>
+    </nav>
+    
+    <main class="main">
+        <div class="page-header">
+            <h1 class="page-title">Dashboard</h1>
+            <a href="/create-event.html" class="btn btn-primary">
+                <span>+</span> Create Event
+            </a>
+        </div>
+        
+        <div id="loading" class="loading">
+            <div class="spinner"></div>
+        </div>
+        
+        <div id="content" class="hidden">
+            <!-- Stats -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Total Events</div>
+                    <div class="stat-value" id="stat-events">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Total Orders</div>
+                    <div class="stat-value" id="stat-orders">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Revenue</div>
+                    <div class="stat-value" id="stat-revenue">€0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Attendees</div>
+                    <div class="stat-value" id="stat-attendees">0</div>
+                </div>
+            </div>
+            
+            <!-- Quick Actions -->
+            <div class="quick-actions">
+                <div class="action-card" onclick="location.href='/create-event.html'">
+                    <div class="action-icon" style="background: #ede9fe; color: #7c3aed;">📅</div>
+                    <div class="action-title">Create Event</div>
+                    <div class="action-desc">Start a new event</div>
+                </div>
+                <div class="action-card" onclick="location.href='/checkin.html'">
+                    <div class="action-icon" style="background: #dcfce7; color: #16a34a;">✓</div>
+                    <div class="action-title">Check-in</div>
+                    <div class="action-desc">Scan tickets at event</div>
+                </div>
+                <div class="action-card" onclick="location.href='/email-campaigns.html'">
+                    <div class="action-icon" style="background: #fef3c7; color: #d97706;">✉️</div>
+                    <div class="action-title">Email Campaign</div>
+                    <div class="action-desc">Send updates to attendees</div>
+                </div>
+            </div>
+            
+            <div class="grid-2">
+                <!-- Recent Events -->
+                <div>
+                    <h2 class="section-title">Your Events</h2>
+                    <div id="events-list">
+                        <!-- Events will be loaded here -->
+                    </div>
+                </div>
+                
+                <!-- Recent Activity -->
+                <div>
+                    <h2 class="section-title">Recent Activity</h2>
+                    <div id="activity-list">
+                        <!-- Activity will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <script>
+        const API_URL = '/api';
+        
+        // Check auth
+        function checkAuth() {
+            const token = localStorage.getItem('token');
+            const user = localStorage.getItem('user');
+            
+            if (!token) {
+                window.location.href = '/index.html';
+                return null;
+            }
+            
+            return { token, user: user ? JSON.parse(user) : null };
+        }
+        
+        // API helper
+        async function api(endpoint, options = {}) {
+            const token = localStorage.getItem('token');
+            
+            const response = await fetch(`${API_URL}${endpoint}`, {
+                ...options,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                    ...options.headers
+                }
+            });
+            
+            if (response.status === 401) {
+                localStorage.removeItem('token');
+                localStorage.removeItem('user');
+                window.location.href = '/index.html';
+                return null;
+            }
+            
+            return response.json();
+        }
+        
+        // Load dashboard
+        async function loadDashboard() {
+            const auth = checkAuth();
+            if (!auth) return;
+            
+            // Update user info
+            document.getElementById('user-name').textContent = auth.user?.first_name || 'User';
+            document.getElementById('user-avatar').textContent = (auth.user?.first_name?.[0] || 'U').toUpperCase();
+            
+            try {
+                // Load overview stats
+                const stats = await api('/dashboard/overview');
+                
+                if (stats) {
+                    document.getElementById('stat-events').textContent = stats.total_events || 0;
+                    document.getElementById('stat-orders').textContent = stats.total_orders || 0;
+                    document.getElementById('stat-revenue').textContent = '€' + ((stats.total_revenue || 0).toFixed(2));
+                    document.getElementById('stat-attendees').textContent = stats.total_attendees || 0;
+                }
+                
+                // Load events
+                const events = await api('/events/my-events');
+                renderEvents(events?.events || []);
+                
+                // Load activity
+                const activity = await api('/dashboard/activity');
+                renderActivity(activity?.activity || []);
+                
+                // Show content
+                document.getElementById('loading').classList.add('hidden');
+                document.getElementById('content').classList.remove('hidden');
+                
+            } catch (error) {
+                console.error('Dashboard load error:', error);
+                document.getElementById('loading').innerHTML = '<p style="text-align:center;color:#dc2626;">Failed to load dashboard. Please refresh.</p>';
+            }
+        }
+        
+        // Render events list
+        function renderEvents(events) {
+            const container = document.getElementById('events-list');
+            
+            if (events.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">📅</div>
+                        <div class="empty-title">No events yet</div>
+                        <div class="empty-desc">Create your first event to get started</div>
+                        <a href="/create-event.html" class="btn btn-primary">Create Event</a>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = events.map(event => `
+                <div class="activity-card">
+                    <div class="activity-header">
+                        <div class="activity-type">${event.title}</div>
+                        <span style="padding: 4px 8px; border-radius: 4px; font-size: 12px; background: ${event.is_published ? '#dcfce7' : '#f3f4f6'}; color: ${event.is_published ? '#16a34a' : '#6b7280'};">
+                            ${event.is_published ? 'Published' : 'Draft'}
+                        </span>
+                    </div>
+                    <div class="activity-desc">
+                        ${event.start_date ? new Date(event.start_date).toLocaleDateString() : 'No date'} 
+                        ${event.city ? '• ' + event.city : ''}
+                    </div>
+                    <div style="margin-top: 12px; display: flex; gap: 8px;">
+                        <a href="/edit-event.html?id=${event.id}" class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px;">Edit</a>
+                        <a href="/attendees.html?event=${event.id}" class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px;">Attendees</a>
+                        <a href="/checkin.html?event=${event.id}" class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px;">Check-in</a>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // Render activity
+        function renderActivity(activity) {
+            const container = document.getElementById('activity-list');
+            
+            if (activity.length === 0) {
+                container.innerHTML = '<p style="color: #9ca3af; text-align: center; padding: 20px;">No recent activity</p>';
+                return;
+            }
+            
+            container.innerHTML = activity.map(item => `
+                <div class="activity-card">
+                    <div class="activity-header">
+                        <div class="activity-type">${item.type === 'order' ? '📦 New Order' : '✓ Check-in'}</div>
+                        <div class="activity-time">${formatTime(item.timestamp)}</div>
+                    </div>
+                    <div class="activity-desc">${item.message}</div>
+                    ${item.amount ? `<div style="font-weight: 600; margin-top: 8px;">€${item.amount.toFixed(2)}</div>` : ''}
+                </div>
+            `).join('');
+        }
+        
+        // Format time
+        function formatTime(timestamp) {
+            if (!timestamp) return '';
+            const date = new Date(timestamp);
+            const now = new Date();
+            const diff = now - date;
+            
+            if (diff < 60000) return 'Just now';
+            if (diff < 3600000) return Math.floor(diff / 60000) + 'm ago';
+            if (diff < 86400000) return Math.floor(diff / 3600000) + 'h ago';
+            return date.toLocaleDateString();
+        }
+        
+        // Toggle user menu
+        function toggleUserMenu() {
+            if (confirm('Sign out?')) {
+                localStorage.removeItem('token');
+                localStorage.removeItem('user');
+                window.location.href = '/index.html';
+            }
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', loadDashboard);
+    </script>
+</body>
+</html>
