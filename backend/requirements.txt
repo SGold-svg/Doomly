@@ -11,7 +11,7 @@ marshmallow-sqlalchemy==0.29.0
 Werkzeug==3.0.1
 SQLAlchemy==2.0.23
 psycopg2-binary==2.9.9
-Pillow==10.1.0
+Pillow>=11.0.0
 Pygments==2.17.2
 itsdangerous==2.1.2
 click==8.1.7
